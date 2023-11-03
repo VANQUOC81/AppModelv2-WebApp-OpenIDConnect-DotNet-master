@@ -46,8 +46,11 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet
                 // PostLogoutRedirectUri is the page that users will be redirected to after sign-out. In this case, it is using the home page
                 PostLogoutRedirectUri = redirectUri,
                 Scope = OpenIdConnectScope.OpenIdProfile,
-                // ResponseType is set to request the code id_token - which contains basic information about the signed-in user
-                ResponseType = OpenIdConnectResponseType.CodeIdToken,
+                // ResponseType is set to request the id_token (access)token - which contains basic information about the signed-in user
+                // ResponseType = OpenIdConnectResponseType.IdTokenToken,
+                ResponseType = OpenIdConnectResponseType.IdTokenToken,
+                ResponseMode = OpenIdConnectResponseMode.FormPost,
+                //CallbackPath = new PathString("/Claims"),
                 // OpenIdConnectAuthenticationNotifications configures OWIN to send notification of failed authentications to OnAuthenticationFailed method
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
@@ -64,7 +67,13 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet
         /// <returns></returns>
         private Task OnAuthenticationFailed(AuthenticationFailedNotification<OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> context)
         {
-            context.HandleResponse();
+            //if (context.Exception.Message.Contains("IDX21323"))
+            //{
+             //   context.HandleResponse();
+              //  context.OwinContext.Authentication.Challenge();
+            //}
+
+            context.HandleResponse();          
             context.Response.Redirect("/?errormessage=" + context.Exception.Message);
             return Task.FromResult(0);
         }

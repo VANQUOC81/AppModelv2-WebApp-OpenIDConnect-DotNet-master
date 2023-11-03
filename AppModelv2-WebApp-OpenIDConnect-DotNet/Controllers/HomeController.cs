@@ -20,14 +20,22 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
         /// Send an OpenID Connect sign-in request.
         /// Alternatively, you can just decorate the SignIn method with the [Authorize] attribute
         /// </summary>
-        public void SignIn()
+        [Authorize]
+        public ActionResult SignIn()
+        //public void SignIn()
+
         {
-            if (!Request.IsAuthenticated)
+            /*if (!Request.IsAuthenticated)
             {
                 HttpContext.GetOwinContext().Authentication.Challenge(
-                    new AuthenticationProperties { RedirectUri = "/" },
+                    new AuthenticationProperties { RedirectUri = "/" }, // "/" is localhost, redirect after success authentication
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
-            }
+            }*/
+
+            //var user = HttpContext.User.Identity;
+            return Redirect("/");
+            // if View() then SignIn.cshtml should exists.
+            //return View();
         }
 
         /// <summary>

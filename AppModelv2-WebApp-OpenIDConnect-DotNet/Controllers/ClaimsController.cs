@@ -2,6 +2,7 @@
 
 namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
 {
+    // Authorize attribute ensures you need to login to be able to see this page.
     [Authorize]
     public class ClaimsController : Controller
     {
