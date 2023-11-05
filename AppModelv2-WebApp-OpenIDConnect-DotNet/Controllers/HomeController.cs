@@ -33,7 +33,7 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
             }*/
 
             //var user = HttpContext.User.Identity;
-            return Redirect("/");
+            return Redirect("/AppModelv2-WebApp-OpenIDConnect-DotNet/");
             // if View() then SignIn.cshtml should exists.
             //return View();
         }

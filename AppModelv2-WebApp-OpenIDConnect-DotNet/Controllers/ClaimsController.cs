@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Security.Principal;
+using System.Security.Claims;
+using System.Web.Mvc;
 
 namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
 {
@@ -25,6 +27,9 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
 
             // TenantId is the unique Tenant Id - which represents an organization in Azure AD
             ViewBag.TenantId = userClaims?.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid")?.Value;
+
+            // get user role
+            ViewBag.AppRole = userClaims?.FindFirst(ClaimTypes.Role);
 
             return View();
         }
