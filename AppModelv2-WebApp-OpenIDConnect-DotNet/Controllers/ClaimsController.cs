@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Web.Mvc;
 
 namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
@@ -14,7 +13,7 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            var userClaims = User.Identity as System.Security.Claims.ClaimsIdentity;
+            var userClaims = HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
 
             //You get the user’s first and last name below:
             ViewBag.Name = userClaims?.FindFirst("name")?.Value;

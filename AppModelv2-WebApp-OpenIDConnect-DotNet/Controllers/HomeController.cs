@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -25,12 +22,12 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
         //public void SignIn()
 
         {
-            /*if (!Request.IsAuthenticated)
+            if (!Request.IsAuthenticated)
             {
                 HttpContext.GetOwinContext().Authentication.Challenge(
                     new AuthenticationProperties { RedirectUri = "/" }, // "/" is localhost, redirect after success authentication
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
-            }*/
+            }
 
             //var user = HttpContext.User.Identity;
             return Redirect("/AppModelv2-WebApp-OpenIDConnect-DotNet/");
