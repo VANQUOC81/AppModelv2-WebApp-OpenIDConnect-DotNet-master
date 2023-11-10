@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 
@@ -9,6 +8,7 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
     public class HomeController : Controller
     {
         // GET: Home
+        [Authorize]
         public ActionResult Index()
         {
             return View();
@@ -22,12 +22,12 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
         //public void SignIn()
 
         {
-            if (!Request.IsAuthenticated)
+            /*if (!Request.IsAuthenticated)
             {
                 HttpContext.GetOwinContext().Authentication.Challenge(
-                    new AuthenticationProperties { RedirectUri = "/" }, // "/" is localhost, redirect after success authentication
+                    new AuthenticationProperties { RedirectUri = "/AppModelv2-WebApp-OpenIDConnect-DotNet/" }, // "/" is localhost, redirect after success authentication
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
-            }
+            }*/
 
             //var user = HttpContext.User.Identity;
             return Redirect("/AppModelv2-WebApp-OpenIDConnect-DotNet/");
