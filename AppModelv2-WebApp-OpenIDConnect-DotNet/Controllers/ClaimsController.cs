@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Web.Mvc;
 
 namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
@@ -29,6 +30,9 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
 
             // get user role
             ViewBag.AppRole = userClaims?.FindFirst(ClaimTypes.Role);
+
+            // get AD group
+            ViewBag.AdGroup = userClaims?.FindAll("groups").FirstOrDefault(c => c.Value == @"eu.rabonet.com\l.global.RRS Users")?.Value;
 
             return View();
         }
