@@ -1,5 +1,7 @@
-﻿using System.Web;
+﻿using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 
@@ -43,6 +45,17 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
             HttpContext.GetOwinContext().Authentication.SignOut(
                     OpenIdConnectAuthenticationDefaults.AuthenticationType,
                     CookieAuthenticationDefaults.AuthenticationType);
+        }
+
+        /// <summary>
+        /// Get Identity User
+        /// </summary>
+        public IIdentity GetUser()
+        {
+            var owinContext = HttpContext.GetOwinContext();
+            var authentication = owinContext.Authentication;
+            var user = authentication.User.Identity;
+            return user;
         }
     }
 }
