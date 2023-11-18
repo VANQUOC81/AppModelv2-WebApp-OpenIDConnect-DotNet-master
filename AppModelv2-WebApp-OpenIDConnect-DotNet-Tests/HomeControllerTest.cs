@@ -8,6 +8,8 @@ using System.Security.Claims;
 using System.Web.Mvc;
 using System.Web;
 using System.IO;
+using Microsoft.Owin.Testing;
+using System.Threading.Tasks;
 
 namespace AppModelv2_WebApp_OpenIDConnect_DotNet_Tests
 {
@@ -56,5 +58,6 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet_Tests
                 //OpenIdConnectAuthenticationDefaults.AuthenticationType,
                 //CookieAuthenticationDefaults.AuthenticationType), Times.Once);
         }
+
     }
 }

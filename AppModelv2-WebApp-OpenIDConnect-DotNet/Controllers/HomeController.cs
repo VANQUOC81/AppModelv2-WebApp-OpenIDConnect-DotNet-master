@@ -1,6 +1,8 @@
 ﻿using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using AppModelv2_WebApp_OpenIDConnect_DotNet.Services;
+using AppModelv2_WebApp_OpenIDConnect_DotNet.Services.Interfaces;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
@@ -9,6 +11,12 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
 {
     public class HomeController : Controller
     {
+        private IAuthorisationService _authorisationService;
+
+        public HomeController()
+        {
+            _authorisationService = new AuthorisationService();
+        }
         // GET: Home
         [Authorize]
         public ActionResult Index()
@@ -52,6 +60,7 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
         /// </summary>
         public IIdentity GetUser()
         {
+            _authorisationService.IsAuthenticated(HttpContext);
             var owinContext = HttpContext.GetOwinContext();
             var authentication = owinContext.Authentication;
             var user = authentication.User.Identity;
