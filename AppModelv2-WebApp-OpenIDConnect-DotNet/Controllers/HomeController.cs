@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Mvc;
 using AppModelv2_WebApp_OpenIDConnect_DotNet.Services;
 using AppModelv2_WebApp_OpenIDConnect_DotNet.Services.Interfaces;
-using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 
@@ -40,9 +39,9 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
             }*/
 
             //var user = HttpContext.User.Identity;
-            return Redirect("/AppModelv2-WebApp-OpenIDConnect-DotNet/");
             // if View() then SignIn.cshtml should exists.
             //return View();
+            return Redirect("/AppModelv2-WebApp-OpenIDConnect-DotNet/");
         }
 
         /// <summary>

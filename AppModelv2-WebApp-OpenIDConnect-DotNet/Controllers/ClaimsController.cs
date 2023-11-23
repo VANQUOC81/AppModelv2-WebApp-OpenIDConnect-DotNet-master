@@ -14,7 +14,7 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            var userClaims = HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
+            var userClaims = HttpContext.User.Identity as ClaimsIdentity;
 
             //You get the user’s first and last name below:
             ViewBag.Name = userClaims?.FindFirst("name")?.Value;
@@ -23,16 +23,13 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Controllers
             ViewBag.Username = userClaims?.FindFirst("preferred_username")?.Value;
 
             // The subject/ NameIdentifier claim can be used to uniquely identify the user across the web
-            ViewBag.Subject = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            ViewBag.Subject = userClaims?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             // TenantId is the unique Tenant Id - which represents an organization in Azure AD
             ViewBag.TenantId = userClaims?.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid")?.Value;
 
-            // get user role
-            ViewBag.AppRole = userClaims?.FindFirst(ClaimTypes.Role);
-
-            // get AD group
-            ViewBag.AdGroup = userClaims?.FindAll("groups").FirstOrDefault(c => c.Value == @"eu.rabonet.com\l.global.RRS Users")?.Value;
+            // get user role defined at app registration
+            ViewBag.AppRole = userClaims?.FindFirst(ClaimTypes.Role)?.Value;
 
             return View();
         }

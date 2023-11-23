@@ -1,7 +1,6 @@
 using AppModelv2_WebApp_OpenIDConnect_DotNet.Services.Interfaces;
 using System.Security.Principal;
 using System.Web;
-using System.Web.Mvc;
 
 namespace AppModelv2_WebApp_OpenIDConnect_DotNet.Services
 {
