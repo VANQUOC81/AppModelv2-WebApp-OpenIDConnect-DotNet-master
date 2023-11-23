@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security.Notifications;
+using System.Security.Claims;
 
 [assembly: OwinStartup(typeof(AppModelv2_WebApp_OpenIDConnect_DotNet.Startup))]
 
@@ -35,7 +35,30 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                Provider = new CookieAuthenticationProvider
+                {
+                    OnValidateIdentity = context =>
+                {
+                    var identity = context.Identity;
+
+                    // Log claims for debugging
+                    foreach (var claim in identity.Claims)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Claim Type: {claim.Type}, Value: {claim.Value}");
+                    }
+
+                    // Get the 'preferred_username' claim value and set it the Name property of the HttpContext Identity
+                    var userPrincipalName = identity.FindFirst("preferred_username")?.Value;
+                        
+                    identity.AddClaim(new Claim(ClaimTypes.Name, userPrincipalName));               
+
+                    return Task.CompletedTask;
+                }
+                }
+            });
+
             app.UseOpenIdConnectAuthentication(
             new OpenIdConnectAuthenticationOptions
             {
@@ -47,10 +70,8 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet
                 PostLogoutRedirectUri = redirectUri,
                 Scope = OpenIdConnectScope.OpenIdProfile,
                 // ResponseType is set to request the id_token (access)token - which contains basic information about the signed-in user
-                // ResponseType = OpenIdConnectResponseType.IdTokenToken,
                 ResponseType = OpenIdConnectResponseType.IdTokenToken,
                 ResponseMode = OpenIdConnectResponseMode.FormPost,
-                //CallbackPath = new PathString("/Claims"),
                 // OpenIdConnectAuthenticationNotifications configures OWIN to send notification of failed authentications to OnAuthenticationFailed method
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
@@ -67,13 +88,7 @@ namespace AppModelv2_WebApp_OpenIDConnect_DotNet
         /// <returns></returns>
         private Task OnAuthenticationFailed(AuthenticationFailedNotification<OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> context)
         {
-            //if (context.Exception.Message.Contains("IDX21323"))
-            //{
-             //   context.HandleResponse();
-              //  context.OwinContext.Authentication.Challenge();
-            //}
-
-            context.HandleResponse();          
+            context.HandleResponse();
             context.Response.Redirect("/?errormessage=" + context.Exception.Message);
             return Task.FromResult(0);
         }
